@@ -74,7 +74,7 @@ internal fun HomeHeader() {
 @Composable
 internal fun HomeGreeting() {
     Text(
-        "Happy Chinese New Year, Sakirin!",
+        "Thoeun Chanvotey, Kmeng Touch!",
         modifier = Modifier.padding(top = 2.dp),
         color = Color.White,
         fontWeight = FontWeight.Bold,

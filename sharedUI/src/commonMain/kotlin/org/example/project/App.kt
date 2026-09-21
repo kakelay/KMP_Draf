@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
@@ -27,7 +28,15 @@ fun App() {
             modifier = Modifier
                 .fillMaxSize()
                 .background(HomeColors.crimson)
-                .safeContentPadding()
+                // .safeContentPadding()
+                // .fillMaxWidth()
+                // .padding(top = 24.dp, bottom = 32.dp, start = 16.dp, end = 16.dp),
+                .padding(
+                    horizontal = 16.dp,
+                    vertical = 34.dp
+                )
+
+
         ) {
             DecorativePattern()
             if (scannerVisible) {
@@ -64,4 +73,7 @@ internal object HomeColors {
     val panel = Color(0xB8340828)
     val pale = Color(0xFFFFF7F5)
     val gold = Color(0xFFFFE13B)
+
 }
+
+ 
