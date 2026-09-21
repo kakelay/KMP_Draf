@@ -74,7 +74,7 @@ internal fun HomeHeader() {
 @Composable
 internal fun HomeGreeting() {
     Text(
-        "Thoeun Chanvotey, Kmeng Touch!",
+        "Good Morning, Elay!",
         modifier = Modifier.padding(top = 2.dp),
         color = Color.White,
         fontWeight = FontWeight.Bold,
