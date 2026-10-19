@@ -23,6 +23,40 @@ Use the run configurations provided by the run widget in your IDE's toolbar. You
 - Android app: `./gradlew :androidApp:assembleDebug`
 - iOS app: open the [/iosApp](./iosApp) directory in Xcode and run it from there.
 
+#### Android Studio Run button
+
+1. Open the project root in Android Studio and wait for Gradle sync to finish.
+2. Select the `androidApp` run configuration and an emulator or connected Android phone.
+3. Start the backend and configure its URL as described below.
+4. Click **Run** (the green triangle), or press **Shift + F10**.
+
+If the run configuration is missing, use **Run > Edit Configurations > + > Android App** and select the `androidApp` module. The `assembleDebug` command above only builds the APK; it does not launch the app.
+
+#### Local backend connection
+
+Set `JOMNOT_API_BASE_URL` in the ignored `local.properties` file to the backend origin, without `/v1`:
+
+| Android device | URL for a backend on computer port 8080 | Additional setup |
+| --- | --- | --- |
+| Standard Android emulator | `http://10.0.2.2:8080` | None |
+| Physical phone connected over USB | `http://127.0.0.1:8080` | Run `adb reverse tcp:8080 tcp:8080` |
+
+For a USB phone, run this in the IDE terminal before launching the app:
+
+```powershell
+adb reverse tcp:8080 tcp:8080
+```
+
+Repeat the command after reconnecting or restarting the phone. Keep the backend running on port 8080. Rebuild and run the app after changing the URL. A Gradle `-PJOMNOT_API_BASE_URL=...` argument takes precedence over `local.properties`; if neither is set, debug builds use `http://10.0.2.2:8080`.
+
+If the screen shows **Could not load parking. Check your connection and retry.**, verify the backend is running and the device connection matches the table, then tap **Retry**. Running iOS requires macOS and Xcode.
+
+### Parking search appearance
+
+The search field in [ParkingSearchForm.kt](sharedUI/src/commonMain/kotlin/org/example/project/parking/presentation/widgets/ParkingSearchForm.kt) keeps the placeholder **Search parking by name or place** and no longer displays the floating label **Where are you heading?**.
+
+When the search field has focus, its border and cursor use `AppColor`. Its focused label color is also configured as `AppColor` if a label is added later. Selected category chips use `AppColor` with white text.
+
 ### Running tests
 
 Use the run button in your IDE's editor gutter, or run tests using Gradle tasks:
