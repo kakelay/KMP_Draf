@@ -51,6 +51,37 @@ Repeat the command after reconnecting or restarting the phone. Keep the backend 
 
 If the screen shows **Could not load parking. Check your connection and retry.**, verify the backend is running and the device connection matches the table, then tap **Retry**. Running iOS requires macOS and Xcode.
 
+### Backend API calls
+
+The shared [JomnotApi client](sharedLogic/src/commonMain/kotlin/org/example/project/parking/data/remote/JomnotApi.kt) appends `/v1` to `JOMNOT_API_BASE_URL` and supports these endpoints:
+
+| Method | Endpoint | Firebase sign-in required |
+| --- | --- | --- |
+| GET | `/v1/app/home` | No |
+| GET | `/v1/parking/categories` | No |
+| GET | `/v1/parking/locations` | No |
+| GET | `/v1/parking/locations/{id}` | No |
+| GET | `/v1/customer/account` | Yes |
+| GET | `/v1/customer/favorites` | Yes |
+| GET | `/v1/customer/favorites/customer/{customerId}` | Yes; server enforces access permissions |
+| PUT / DELETE | `/v1/customer/favorites/{id}` | Yes |
+| GET | `/v1/zone/customer/find-zones` | Yes |
+| PUT | `/v1/zone/customer/selected-zone/{id}` | Yes |
+| GET | `/v1/notifications` | Yes |
+| PUT | `/v1/notifications/{id}/read` | Yes |
+
+Parking search accepts `page`, `size`, and optional `category`, `q`, `latitude`, and `longitude`. Favorites lists accept `page` and `size`; notifications use `skip` and `take`.
+
+For example, from the computer hosting the backend:
+
+```powershell
+Invoke-RestMethod 'http://127.0.0.1:8080/v1/parking/locations?page=0&size=20'
+```
+
+When signed in, the client sends the current Firebase ID token as `Authorization: Bearer <ID_TOKEN>`, including on public requests for personalized results. Protected requests require sign-in. A successful response must have an HTTP 2xx status and `responseCode: "00"`.
+
+These are the client's supported endpoints; individual screens may use only a subset. Firebase API keys configure the Firebase SDK and are separate from the parking backend URL and user ID tokens. Keep real keys and tokens out of README examples. See [Firebase setup](docs/FIREBASE_SETUP.md) for configuration details.
+
 ### Parking search appearance
 
 The search field in [ParkingSearchForm.kt](sharedUI/src/commonMain/kotlin/org/example/project/parking/presentation/widgets/ParkingSearchForm.kt) keeps the placeholder **Search parking by name or place** and no longer displays the floating label **Where are you heading?**.
