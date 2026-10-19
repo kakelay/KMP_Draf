@@ -59,7 +59,7 @@ let options = FirebaseOptions(
     googleAppID: "1:1014341937975:ios:401535c27872f3aa5948b2",
     gcmSenderID: "1014341937975"
 )
-options.apiKey = "AIzaSyBVTfJrshSraH2u0HgKB4-a1x4nCE5Wj3c"
+options.apiKey = "YOUR_IOS_FIREBASE_API_KEY"
 options.projectID = "jomnot-merchan"
 options.storageBucket = "jomnot-merchan.firebasestorage.app"
 options.clientID = "1014341937975-cta3takdtaad44ovmu0qobujpv1f68bn.apps.googleusercontent.com"
