@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.androidApplication)
@@ -12,12 +13,26 @@ kotlin {
 }
 dependencies {
     implementation(project(":sharedUI"))
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
+    implementation(libs.kotlinx.coroutines.playServices)
 
     implementation(libs.androidx.activity.compose)
 
     implementation(libs.compose.uiToolingPreview)
     debugImplementation(libs.compose.uiTooling)
 }
+
+// Override with -PJOMNOT_API_BASE_URL=https://your-api.example.com (without /v1).
+val configuredApiBaseUrl = providers.gradleProperty("JOMNOT_API_BASE_URL")
+    .orElse(providers.provider {
+        val properties = Properties()
+        rootProject.file("local.properties").takeIf { it.exists() }?.inputStream()?.use {
+            properties.load(it)
+        }
+        properties.getProperty("JOMNOT_API_BASE_URL")
+    })
+fun buildConfigString(value: String): String = "\"" + value.replace("\\", "\\\\").replace("\"", "\\\"") + "\""
 
 android {
     namespace = "org.example.project"
@@ -36,7 +51,11 @@ android {
         }
     }
     buildTypes {
+        debug {
+            buildConfigField("String", "API_BASE_URL", buildConfigString(configuredApiBaseUrl.getOrElse("http://10.0.2.2:8080")))
+        }
         release {
+            buildConfigField("String", "API_BASE_URL", buildConfigString(configuredApiBaseUrl.getOrElse("")))
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -50,5 +69,6 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }

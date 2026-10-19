@@ -33,3 +33,6 @@ Use the run button in your IDE's editor gutter, or run tests using Gradle tasks:
 ---
 
 Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+### MVVM real API sample
+
+See [the integration and code review guide](docs/MVVM_API_SAMPLE.md) for the parking MVVM feature, all Jomnot client endpoints, Firebase token adapter, and configuration.
